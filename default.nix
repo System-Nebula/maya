@@ -12,7 +12,7 @@ let
 
     src = ./.;
 
-    vendorHash = null;
+    vendorHash = "sha256-j+61oqfB/lGItZyxo32g1WqiCsvWucb95vAsQn6Azcw= ";
 
     meta = {
       homepage = "https://github.com/System-Nebula/maya";

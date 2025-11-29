@@ -43,6 +43,7 @@ pkgs.mkShell {
   buildInputs = [
     pkgs.go
     pkgs.statix
+    pkgs.docker
     pkgs.golangci-lint
     devhelp
   ]
