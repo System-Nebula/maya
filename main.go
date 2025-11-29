@@ -25,11 +25,6 @@ func main() {
 	log.Info("Starting connection to discord API")
 
 	commands := cmd.Commands
-	_, err = c.ApplicationCommandBulkOverwrite("", "", commands)
-	if err != nil {
-		log.ErrorFmt("Unable to override commands %v", commands)
-		return
-	}
 	c.AddHandler(func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		data := i.ApplicationCommandData()
 		switch data.Name {
@@ -52,6 +47,22 @@ func main() {
 		log.ErrorFmt("Unable to connect to discord API: %v", err)
 		return
 	}
+
+	guildID := ""
+	if len(c.State.Guilds) > 0 {
+		guildID = c.State.Guilds[0].ID
+	}
+
+	reg, err := c.ApplicationCommandBulkOverwrite(c.State.Application.ID, guildID, commands)
+	if err != nil {
+		log.ErrorFmt("Unable to override commands %v", err)
+		return
+	}
+	for _, v := range reg {
+		log.Info(v.Name)
+
+	}
+
 	stop := make(chan os.Signal, 1)
 	signal.Notify(stop, os.Interrupt)
 	log.Info("Press Ctrl+C to exit")
